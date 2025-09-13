@@ -3,7 +3,9 @@ import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
 import Shop from "./components/Shop";
 import Cart from "./components/Cart";
-import { useState } from "react";
+import { useState, createContext  } from "react";
+
+export const ShopContext = createContext();
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -22,23 +24,25 @@ function App() {
     });
   };
 
-  const cartCount = cart.length;
+  const contextValue = {
+    cart,
+    setCart,
+    addToCart
+  };
 
   return (
-    <Router>
-      {/* Pass cart + count to navbar */}
-      <Navbar cartCount={cartCount} />
-
-      <main className="p-6">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          {/* Pass addToCart so Shop can update cart */}
-          <Route path="/shop" element={<Shop addToCart={addToCart} />} />
-          {/* Pass cart + setCart so Cart page can modify */}
-          <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
-        </Routes>
-      </main>
-    </Router>
+    <ShopContext.Provider value={contextValue}>
+      <Router>
+        <Navbar />
+        <main className="p-6">
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </main>
+      </Router>
+    </ShopContext.Provider>
   );
 }
 

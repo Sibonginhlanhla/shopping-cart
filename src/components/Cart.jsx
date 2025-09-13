@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import './Cart.css';
+import { useState, useContext } from 'react';
+import { ShopContext } from '../App';
+import '../styles/Cart.css';
 
-function Cart({ cart, setCart }) {
+function Cart() {
+  const { cart, setCart } = useContext(ShopContext);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const increment = (id) => {
@@ -191,19 +193,19 @@ function Cart({ cart, setCart }) {
                   {shipping === 0 ? (
                     <span className="free-shipping">FREE</span>
                   ) : (
-                    `$${shipping.toFixed(2)}`
+                    `R${shipping.toFixed(2)}`
                   )}
                 </span>
               </div>
               {shipping > 0 && (
                 <div className="shipping-note">
-                  <small>💡 Free shipping on orders over $50!</small>
+                  <small>💡 Free shipping on orders over R50!</small>
                 </div>
               )}
               <hr className="summary-divider" />
               <div className="summary-row total-row">
                 <span>Total:</span>
-                <span className="final-total">${finalTotal.toFixed(2)}</span>
+                <span className="final-total">R{finalTotal.toFixed(2)}</span>
               </div>
             </div>
 

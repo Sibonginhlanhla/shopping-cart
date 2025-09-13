@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import './Shop.css';
+import React, { useState, useEffect, useContext } from "react";
+import { ShopContext } from "../App";
+import '../styles/Shop.css';
 
 const ProductCard = ({ product, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
@@ -91,10 +92,12 @@ const ProductCard = ({ product, onAddToCart }) => {
   );
 };
 
-const Shop = ({ addToCart }) => {
+const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const { addToCart } = useContext(ShopContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
